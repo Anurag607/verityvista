@@ -7,7 +7,6 @@ import {
 } from "@/redux/reducers/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useOnClickOutside } from "usehooks-ts";
-import { setDocData } from "@/redux/reducers/docSlice";
 import { FilterOutlined } from "@ant-design/icons";
 
 const colors = [
@@ -31,7 +30,7 @@ const Filter = () => {
 
   const ClickEventHandler = (event: React.MouseEvent<HTMLElement>) => {
     const target = event.currentTarget;
-    dispatch(setFilterValue(target.dataset.value));
+    dispatch(setFilterValue(target.dataset.value!));
     dispatch(closeFilter());
   };
 
@@ -83,7 +82,6 @@ const Filter = () => {
           })}
           onClick={() => {
             dispatch(setFilterValue(""));
-            dispatch(setDocData(docData));
             dispatch(closeFilter());
           }}
         >

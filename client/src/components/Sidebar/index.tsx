@@ -9,12 +9,11 @@ import {
   CaretRightOutlined,
   DoubleRightOutlined,
 } from "@ant-design/icons";
-import { switchEditor } from "@/redux/reducers/toggleEditor";
 import { useRouter } from "next-nprogress-bar";
 
 const Sidebar = () => {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -101,8 +100,8 @@ const Sidebar = () => {
         })}
       >
         <div
-          onClick={() => {
-            dispatch(switchEditor(toggleEditor === "code" ? "text" : "code"));
+          onClick={(e) => {
+            e.preventDefault();
           }}
           className={classNames({
             [`mobile:w-[30px] mobile:h-[30px] w-[42px] h-[42px] flex items-center justify-center ${
