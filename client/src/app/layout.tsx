@@ -73,15 +73,15 @@ export default function RootLayout({ children }: { children: any }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
           rel="icon"
-          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.ico`}
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
         />
         <link
           rel="shortcut icon"
-          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.ico`}
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
         />
         <link
           rel="apple-touch-icon"
-          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.ico`}
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
         />
         <title>{"VerityVista"}</title>
       </head>
@@ -113,16 +113,14 @@ export default function RootLayout({ children }: { children: any }) {
                   <div
                     className={classNames({
                       [`relative h-screen ${
-                        isAuthPage() || isHomePage()
-                          ? "w-screen"
-                          : "w-[calc(100vw_-_6rem)]"
+                        isAuthPage() ? "w-screen" : "w-[calc(100vw_-_6rem)]"
                       } flex flex-col items-start justify-between`]: true,
                       "mobile:w-screen": true,
                     })}
                   >
-                    {!isAuthPage() && !isHomePage() && <Navbar />}
+                    {!isAuthPage() && <Navbar />}
                     {children}
-                    {!isAuthPage() && !isHomePage() && (
+                    {!isAuthPage() && (
                       <div className={"w-full h-[2rem] bg-transparent"} />
                     )}
                   </div>
@@ -133,8 +131,8 @@ export default function RootLayout({ children }: { children: any }) {
                   <CaretUpOutlined />
                 </div>
               </ScrollTop>
-              {!isAuthPage() && !isHomePage() && <OffCanvasPopup />}
-              {!isAuthPage() && !isHomePage() && <Sidebar />}
+              {!isAuthPage() && <OffCanvasPopup />}
+              {!isAuthPage() && <Sidebar />}
               <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
             <ToastContainer autoClose={1000} hideProgressBar />

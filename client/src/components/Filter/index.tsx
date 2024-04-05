@@ -37,25 +37,22 @@ const Filter = () => {
     <div
       ref={ref}
       className={classNames({
-        "relative flex items-center justify-center": true,
+        "relative flex items-center justify-start": true,
         "cursor-pointer": true,
       })}
     >
       <button
         className={classNames({
-          "cursor-pointer": true,
-          "bg-white": true,
-          "py-[0.1rem] px-[0.15rem] rounded-md": true,
-          "border-2 border-zinc-200": true,
-          "mt-1": true,
+          "!cursor-pointer": true,
+          "!bg-white w-9 h-9 mt-[0.2rem]": true,
+          "!grid !place-items-center": true,
+          "border-2 border-zinc-200 rounded-md": true,
         })}
+        onClick={() => {
+          !isFilterOpen ? dispatch(openFilter()) : dispatch(closeFilter());
+        }}
       >
-        <FilterOutlined
-          className="h-6 w-6 cursor-pointer z-[1000]"
-          onClick={() => {
-            !isFilterOpen ? dispatch(openFilter()) : dispatch(closeFilter());
-          }}
-        />
+        <FilterOutlined />
       </button>
       <div
         className={classNames({
