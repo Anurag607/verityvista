@@ -22,7 +22,6 @@ const Filter = () => {
   const dispatch = useAppDispatch();
   const ref = React.useRef<HTMLDivElement>(null);
   const { isFilterOpen } = useAppSelector((state: any) => state.filter);
-  const { docData } = useAppSelector((state: any) => state.docs);
 
   useOnClickOutside(ref, () => {
     dispatch(closeFilter());
