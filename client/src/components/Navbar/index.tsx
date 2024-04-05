@@ -83,7 +83,7 @@ const Navbar = () => {
               "flex justify-center items-center gap-4 cursor-pointer": true,
             })}
           >
-            {isCodeForge() ? "CodeForge" : "CoWrite"}
+            {isCodeForge() ? "CodeForge" : "VerityVista"}
           </h3>
         </div>
       </div>

@@ -127,10 +127,10 @@ const Sidebar = () => {
         >
           {pathname.includes("dashboard")
             ? !shouldNotExtend()
-              ? "CoWrite"
+              ? "VerityVista"
               : "CodeForge"
             : shouldNotExtend()
-            ? "CoWrite"
+            ? "VerityVista"
             : "CodeForge"}
         </h1>
       </div>

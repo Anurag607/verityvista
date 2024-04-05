@@ -1,4 +1,4 @@
-import { ToastConfig } from "@/utils/config";
+import { ToastConfig } from "@/lib/utils";
 import React from "react";
 import { toast } from "react-toastify";
 

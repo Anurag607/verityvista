@@ -26,7 +26,7 @@ const Footer = () => {
             "flex justify-center items-center gap-4": true,
           })}
         >
-          CoWrite
+          VerityVista
         </h3>
       </div>
       <div className="flex justify-center items-center gap-4 ">

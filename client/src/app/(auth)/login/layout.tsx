@@ -25,7 +25,7 @@ export default function RootLayout({
           rel="apple-touch-icon"
           href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.ico`}
         />
-        <title>{"CoWrite"}</title>
+        <title>{"VerityVista"}</title>
       </Head>
       {children}
     </>

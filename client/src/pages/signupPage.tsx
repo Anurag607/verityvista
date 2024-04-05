@@ -102,7 +102,7 @@ const Register = () => {
             })}
           >
             <h1 className="bound lg:text-[3rem] text-[2.25rem] drop-shadow-xl">
-              {"CoWrite"}
+              {"VerityVista"}
             </h1>
             <h1
               className={classNames({
@@ -111,7 +111,7 @@ const Register = () => {
                 "shadow-xl bg-black ": true,
               })}
             >
-              Collaborate and Create.
+              Verify all you want.
             </h1>
           </div>
         </div>

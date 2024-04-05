@@ -1,6 +1,6 @@
 "use client";
 
-import RegisterPage from "@/app/_pages/signupPage";
+import RegisterPage from "@/pages/signupPage";
 import React from "react";
 
 const Page = () => {

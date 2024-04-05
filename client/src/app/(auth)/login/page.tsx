@@ -1,6 +1,6 @@
 "use client";
 
-import LoginPage from "@/app/_pages/loginPage";
+import LoginPage from "@/pages/loginPage";
 import React from "react";
 
 const Page = () => {
