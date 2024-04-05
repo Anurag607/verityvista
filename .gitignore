@@ -1,7 +1,7 @@
-**/*/.env
-**/*/.env.local
-**/*/node_modules
-**/*/.vercel
-**/*/build
-**/*/.next
-**/*/.dist
+.env
+.env.*
+node_modules
+.vercel
+build
+.next
+.dist
