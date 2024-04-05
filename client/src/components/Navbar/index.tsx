@@ -76,8 +76,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className={`flex gap-x-2 items-center justify-center`}>
-        <DarkMode />
-        {authInstance && (
+        {authInstance ? (
           <button
             onClick={() => {
               dispatch(destroyAuthInstance());
@@ -92,7 +91,21 @@ const Navbar = () => {
           >
             <LogoutOutlined />
           </button>
+        ) : (
+          <button
+            className={classNames({
+              "text-primary font-normal bound text-sm": true,
+              "mobile-sm:hidden flex justify-center items-center gap-2 cursor-pointer":
+                true,
+              "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
+                true,
+              "px-2 py-1 mt-2 rounded-md": true,
+            })}
+          >
+            {"Login"}
+          </button>
         )}
+        <DarkMode />
       </div>
     </nav>
   );
