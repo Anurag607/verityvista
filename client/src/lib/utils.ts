@@ -34,3 +34,53 @@ export const getFirstTimeStatus = async (user: any) => {
 
   return data;
 };
+
+export const getAllPosts = async () => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/`
+  );
+
+  return data;
+};
+
+export const getPostById = async (id: string) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}`
+  );
+
+  return data;
+};
+
+export const getPostByCategory = async (category: string) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/?category=${category}`
+  );
+
+  return data;
+};
+
+export const upvotePost = async (id: string) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/upvote/`
+  );
+
+  return data;
+};
+
+export const downvotePost = async (id: string) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/downvote/`
+  );
+
+  return data;
+};
+
+// response = {message: "", response: ""}
+export const addResponse = async (id: string, body: any) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factres/${id}/response/`,
+    body
+  );
+
+  return data;
+};

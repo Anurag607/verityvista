@@ -55,6 +55,14 @@ const AddPostPopup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    for (const key in formData) {
+      if (formData[key].length === 0) {
+        toast.error("All fields are required", ToastConfig);
+        return;
+      }
+    }
+
     setIsLoading(true);
     if (!image) return;
 

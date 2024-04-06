@@ -1,3 +1,4 @@
+import { addResponse } from "@/lib/utils";
 import classNames from "classnames";
 import Link from "next/link";
 
@@ -47,25 +48,61 @@ const ContentPopup = ({ data, close }: any) => {
             />
             <img
               loading="lazy"
-              src={data.urlToImage}
-              alt={data.title}
+              src={data.imageLink}
+              alt={data.heading}
               className="relative w-full h-auto object-cover select-none grayscale rounded-t-2xl fadeout-overlay"
             />
           </div>
           <div className="cursor-default !bg-neutral-500 !bg-opacity-50 glass-effect w-full py-4 pl-4 rounded-b-2xl rounded-t-0 z-50 whitespace-wrap text-sm font-medium grid place-items-left text-white">
-            {data.title.slice(0, 75)}...
+            {data.heading.slice(0, 75)}...
           </div>
           <p className={"mt-4 text-neutral-600 font-medium pl-3 line-clamp-3"}>
-            {data.description}
+            {data.content}
           </p>
           <Link
-            href={data.url}
+            href={data.refLink}
             className={
               "bg-neutral-500 text-white rounded-lg hover:underline cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate mt-6"
             }
           >
-            {`${data.url.slice(0, 75)}...`}
+            {`${data.refLink.slice(0, 75)}...`}
           </Link>
+          {/* three buttons in a div in a row equally space */}
+          <div className="flex justify-center items-center gap-x-3 mt-6">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                addResponse(data.id, { message: "", response: 1 });
+              }}
+              className={
+                "bg-[#a3a3a3] text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
+              }
+            >
+              {"Real"}
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                addResponse(data.id, { message: "", response: 0 });
+              }}
+              className={
+                "bg-gray-500 text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
+              }
+            >
+              {"Neutral"}
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                addResponse(data.id, { message: "", response: -1 });
+              }}
+              className={
+                "bg-[#333333] text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
+              }
+            >
+              {"Fake"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
