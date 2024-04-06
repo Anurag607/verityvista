@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { closePostForm } from "@/redux/reducers/formSlice";
 import classNames from "classnames";
 import { useRouter } from "next-nprogress-bar";
-import axios from "axios";
+import axios from 'axios';
 
 const AddPostPopup = () => {
   const router = useRouter();
@@ -118,7 +118,6 @@ const AddPostPopup = () => {
           </svg>
           <span className="sr-only">Close modal</span>
         </button>
-        {/* Form... */}
         <form
           onSubmit={handleSubmit}
           className="relative flex flex-col items-center justify-center w-full"
