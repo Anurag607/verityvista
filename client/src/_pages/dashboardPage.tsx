@@ -1,13 +1,17 @@
 import React from "react";
 import classNames from "classnames";
-import { Search, ContentPopup } from "@/components";
+import { Search } from "@/components";
+import { useSelector } from "react-redux";
 import AddFormPopup from "@/components/Forms/add_form";
-import { useAppSelector } from "@/redux/hooks";
+import AddPostPopup from "@/components/Forms/create_post_form";
+import { useUser } from '@auth0/nextjs-auth0/client';
+import FAB from "@/components/FabIcon";
 
 const DashboardPage = ({ children }: { children: React.ReactNode }) => {
-  const isFormOpem = useAppSelector((state: any) => state.form.isFormOpen);
-  const isContentOpem = useAppSelector(
-    (state: any) => state.content.isContentOpen
+  const { user} = useUser();
+  const isFormOpem = useSelector((state: any) => state.form.isFormOpen);
+  const isPostFormOpem = useSelector(
+    (state: any) => state.form.isPostFormOpen
   );
   return (
     <div
@@ -30,7 +34,11 @@ const DashboardPage = ({ children }: { children: React.ReactNode }) => {
       >
         <Search />
         {isFormOpem && <AddFormPopup />}
-        {isContentOpem && <ContentPopup />}
+        {isPostFormOpem && <AddPostPopup />}
+
+        {user?(
+          <FAB></FAB>
+        ):(<></>)}
       </div>
       {children}
     </div>
