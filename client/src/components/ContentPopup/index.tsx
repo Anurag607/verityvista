@@ -1,8 +1,10 @@
 import { addResponse } from "@/lib/utils";
+import { useAppSelector } from "@/redux/hooks";
 import classNames from "classnames";
 import Link from "next/link";
 
 const ContentPopup = ({ data, close }: any) => {
+  const role = useAppSelector((state: any) => state.auth.role);
   return (
     <div
       className={classNames({
@@ -68,41 +70,43 @@ const ContentPopup = ({ data, close }: any) => {
             {`${data.refLink.slice(0, 75)}...`}
           </Link>
           {/* three buttons in a div in a row equally space */}
-          <div className="flex justify-center items-center gap-x-3 mt-6">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                addResponse(data.id, { message: "", response: 1 });
-              }}
-              className={
-                "bg-[#a3a3a3] text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
-              }
-            >
-              {"Real"}
-            </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                addResponse(data.id, { message: "", response: 0 });
-              }}
-              className={
-                "bg-gray-500 text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
-              }
-            >
-              {"Neutral"}
-            </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                addResponse(data.id, { message: "", response: -1 });
-              }}
-              className={
-                "bg-[#333333] text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
-              }
-            >
-              {"Fake"}
-            </button>
-          </div>
+          {role.role.toLowerCase() === "expert" && (
+            <div className="flex justify-center items-center gap-x-3 mt-6">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  addResponse(data.id, { message: "", response: 1 });
+                }}
+                className={
+                  "bg-[#a3a3a3] text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
+                }
+              >
+                {"Real"}
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  addResponse(data.id, { message: "", response: 0 });
+                }}
+                className={
+                  "bg-gray-500 text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
+                }
+              >
+                {"Neutral"}
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  addResponse(data.id, { message: "", response: -1 });
+                }}
+                className={
+                  "bg-[#333333] text-white rounded-lg hover:scale-110 cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate"
+                }
+              >
+                {"Fake"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

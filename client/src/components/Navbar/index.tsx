@@ -13,6 +13,7 @@ import { useRouter } from "next-nprogress-bar";
 import {
   destroyAuthInstance,
   setAuthInstance,
+  setRole,
 } from "@/redux/reducers/authSlice";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -36,6 +37,8 @@ const Navbar = () => {
       getFirstTimeStatus(user.email).then((res) => {
         if (res.status === 200) {
           dispatch(openForm());
+        } else {
+          dispatch(setRole(res.payload));
         }
       });
     }
