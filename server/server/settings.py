@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-*##udqv1r*6cwq2e)lc34oki$o08)4-dh9m99m$aqa2p!*-x%j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 import environ
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "factcheck",
     "core",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -55,7 +56,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "server.urls"
 
@@ -94,7 +98,7 @@ WSGI_APPLICATION = "server.wsgi.application"
 
 import dj_database_url
 
-DATABASES = {"default": dj_database_url.parse(env('DATABASE_URL'))}
+DATABASES = {"default": dj_database_url.parse(env("DATABASE_URL"))}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
