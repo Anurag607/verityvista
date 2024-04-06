@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "factcheck",
     "core",
     "corsheaders"
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
