@@ -3,7 +3,7 @@ from .models import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import uuid
-
+from .serializer import *
 # Create your views here.
 # API
 
@@ -44,6 +44,7 @@ class checkreg(APIView):
         mail = data["email"]
         try:
             existing = user.objects.get(email=mail)
-            return Response({"status": 304, "error": "already exists"})
+            serialized_obj = UserSerializer(existing)
+            return Response({"status": 304, "error": "already exists","payload":serialized_obj.data})
         except:
             return Response({"status": 200})
