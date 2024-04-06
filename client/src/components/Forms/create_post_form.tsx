@@ -4,6 +4,7 @@ import { closePostForm } from "@/redux/reducers/formSlice";
 import classNames from "classnames";
 import { useRouter } from "next-nprogress-bar";
 import axios from 'axios';
+import { CloudImage } from "@/cloudinary/CloudImage";
 
 const AddPostPopup = () => {
   const router = useRouter();
@@ -20,9 +21,18 @@ const AddPostPopup = () => {
 
   const submitForm = async () => {
     try {
-      const response = await axios.post("url", formData);
+
+      setFormData({...formData,imageLink:'https://res.cloudinary.com/dotwawzhk/image/upload/v1712395190/qd0cy91t0894l1dv6etd.png'})  
+      const response = await axios.post("http://127.0.0.1:8000/fact/factmodels/", formData);
       const { data } = response;
       console.log(data);
+      setFormData({...formData,category: "",
+      heading: "",
+      content: "",
+      imageLink: "",
+      refLink: ""})
+
+      dispatch(closePostForm());
     } catch {
       console.log("some error occured in submit part");
     }
@@ -44,24 +54,47 @@ const AddPostPopup = () => {
     if (!image) return;
 
     const imageformData = new FormData();
-    imageformData.append("file", image);
-    imageformData.append("upload_preset", "your_upload_preset");
+    imageformData.append("upload_preset", "nextBit");
 
-    try {
-      const cloudinary_url = process.env.NEXT_PUBLIC_CLOUDINARY_URL;
-      const response = await fetch(`${cloudinary_url}`, {
-        method: "POST",
-        body: imageformData,
-      });
+    imageformData.append(
+        "cloud_name",
+        `${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME}`
+      );
+      imageformData.append("api_key", `${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}`);
+      imageformData.append(
+        "api_secret",
+        `${process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET}`
+      );
+      imageformData.append("file", image);
+      
+    //   const cloudinary_url = process.env.NEXT_PUBLIC_CLOUDINARY_URL;
+        
+    //   const config = {
+    //       onUploadProgress: function (progressEvent: any) {
+    //         let percentCompleted = Math.round(
+    //           (progressEvent.loaded * 100) / progressEvent.total
+    //         );
+    //         console.log(percentCompleted);
+    //       },
+    //     };
 
-      const data = await response.json();
-      const { public_url, secure_url } = data;
-      setFormData({ ...formData, imageLink: public_url });
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    }
+    // try {
+    //   const { data } = await axios.post(`${cloudinary_url}`, imageformData, config);
+    //   console.log(data)
+
+    //   const { public_url, secure_url } = data;
+    //   console.log(public_url, secure_url)
+    //   setFormData({ ...formData, imageLink: secure_url })
+    //   return secure_url;
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    let imageURL = await CloudImage(imageformData);
+    setFormData({ ...formData, imageLink:'https://res.cloudinary.com/dotwawzhk/image/upload/v1712395190/qd0cy91t0894l1dv6etd.png' })
+
 
     await submitForm();
+    dispatch(closePostForm());
   };
 
   const inputFields = [
@@ -76,9 +109,9 @@ const AddPostPopup = () => {
         setFormData({ ...formData, heading: e.target.value }),
     },
     {
-      name: "reflink",
+      name: "refLink",
       function: (e: React.ChangeEvent<HTMLInputElement>) =>
-        setFormData({ ...formData, reflink: e.target.value }),
+        setFormData({ ...formData, refLink: e.target.value }),
     },
   ];
 
@@ -179,7 +212,7 @@ const AddPostPopup = () => {
               placeholder={"enter the content here"}
               className={classNames({
                 "h-full w-full px-4 py-2 bg-gray-200 mt-3": true,
-                "kanit z-10 text-[#ffffff] rounded-b-md resize-none": true,
+                "kanit z-10 text-gray-500 rounded-b-md resize-none": true,
                 "outline-none border-none cursor-text": true,
                 rounded: "md",
               })}
