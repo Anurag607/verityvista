@@ -59,17 +59,17 @@ export const getPostByCategory = async (category: string) => {
   return data;
 };
 
-export const upvotePost = async (id: string) => {
+export const upvotePost = async (id: string, dname: string) => {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/upvote/`
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/upvote/`, {dname,}
   );
 
   return data;
 };
 
-export const downvotePost = async (id: string) => {
+export const downvotePost = async (id: string, dname: string) => {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/downvote/`
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/downvote/`, {dname,}
   );
 
   return data;

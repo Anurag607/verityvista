@@ -88,7 +88,7 @@ export default function Home() {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          upvotePost(matchingData[0].id);
+                          upvotePost(matchingData[0].id,role.display_name)
                           dispatch(
                             setVote({ id: matchingData[0].id, vote: 1 })
                           );
@@ -114,7 +114,7 @@ export default function Home() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        downvotePost(matchingData[0].id);
+                        downvotePost(matchingData[0].id,role.display_name)
                         dispatch(setVote({ id: matchingData[0].id, vote: 0 }));
                       }}
                     >
@@ -245,6 +245,8 @@ const CategoryCard = ({ data, setCurrentArticle, isLoading }: any) => {
   const dispatch = useAppDispatch();
   const { user } = useUser();
   const votes = useAppSelector((state: any) => state.vote.votes);
+  const role = useAppSelector((state: any) => state.auth.role);
+
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -292,7 +294,7 @@ const CategoryCard = ({ data, setCurrentArticle, isLoading }: any) => {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      upvotePost(data.id);
+                      upvotePost(data.id,role.display_name);
                       dispatch(setVote({ id: data.id, vote: 1 }));
                     }}
                   >
@@ -314,7 +316,7 @@ const CategoryCard = ({ data, setCurrentArticle, isLoading }: any) => {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    downvotePost(data.id);
+                    downvotePost(data.id,role.display_name);
                     dispatch(setVote({ id: data.id, vote: 0 }));
                   }}
                 >
