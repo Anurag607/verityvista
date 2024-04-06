@@ -25,8 +25,13 @@ SECRET_KEY = "django-insecure-*##udqv1r*6cwq2e)lc34oki$o08)4-dh9m99m$aqa2p!*-x%j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+import environ
+
+env = environ.Env()
+
+environ.Env.read_env()
 
 # Application definition
 
@@ -37,8 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',
-    'factcheck',
+    "rest_framework",
+    "factcheck",
     "core",
 ]
 
@@ -76,17 +81,20 @@ WSGI_APPLICATION = "server.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "verityvista",
-        "USER": "fusion_admin",
-        "PASSWORD": "hello123",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "verityvista",
+#         "USER": "fusion_admin",
+#         "PASSWORD": "hello123",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
+#     }
+# }
 
+import dj_database_url
+
+DATABASES = {"default": dj_database_url.parse(env('DATABASE_URL'))}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
