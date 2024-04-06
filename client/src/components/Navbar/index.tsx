@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { getFirstTimeStatus } from "@/lib/utils";
-import { openForm } from "@/redux/reducers/formSlice";
+import { openForm,openPostForm } from "@/redux/reducers/formSlice";
 
 const Navbar = () => {
   const router = useRouter();
@@ -25,6 +25,10 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const { isSidebarOpen } = useAppSelector((state: any) => state.sidebar);
   const { authInstance } = useAppSelector((state: any) => state.auth);
+
+  const handleOpenForm = () => {
+    dispatch(openPostForm());
+  };
 
   React.useEffect(() => {
     if (user) {
@@ -103,18 +107,6 @@ const Navbar = () => {
             <a href="/api/auth/logout">
               <LogoutOutlined />
             </a>
-             <button
-             className={classNames({
-               "text-primary font-normal bound text-sm": true,
-               "mobile-sm:hidden flex justify-center items-center gap-2 cursor-pointer":
-                 true,
-               "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
-                 true,
-               "px-2 py-1 mt-2 rounded-md": true,
-             })}
-           >
-             {"create"}
-           </button> 
            </> 
           // </button>
         ) : (

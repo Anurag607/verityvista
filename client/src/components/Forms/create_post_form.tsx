@@ -30,7 +30,7 @@ import axios from 'axios';
 // const options = [RoleOptions, Profession];
 // const fields = ["role", "profession", "location"];
 
-const AddFormPopup = () => {
+const AddPostPopup = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 //   const { authInstance } = useAppSelector((state: any) => state.auth);
@@ -123,7 +123,7 @@ const AddFormPopup = () => {
         "bg-gray-800 bg-opacity-50": true,
       })}
     >
-      <div className="relative bg-white mobile:w-[95vw] rounded-lg px-4 py-8 shadow-lg w-[19rem] dark:bg-neutral-800">
+      <div className="relative bg-white mobile:w-[95vw] rounded-lg px-4 py-8 shadow-lg w-[39rem] dark:bg-neutral-800">
         {/* Close Button... */}
         <button
           className={classNames({
@@ -211,12 +211,13 @@ const AddFormPopup = () => {
                         onChange={(e) => setFormData({...formData,"content":e.target.value})}
                         placeholder={"enter the content here"}
                         className={classNames({
-                        "h-full w-full px-4 py-2 bg-neutral-600 mt-0": true,
+                        "h-full w-full px-4 py-2 bg-neutral-600 mt-3": true,
                         "kanit z-10 text-[#ffffff] rounded-b-md resize-none": true,
                         "outline-none border-none cursor-text": true,
+                        "rounded":"md"
                         })}
                     />
-                <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" onChange={handleFileChange}/>
+                <input className="mt-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" onChange={handleFileChange}/>
                 </div>  
           {/* Submit... */}
           <div className="mt-4 w-full flex items-center justify-end">
@@ -241,4 +242,4 @@ const AddFormPopup = () => {
   );
 };
 
-export default AddFormPopup;
+export default AddPostPopup;
