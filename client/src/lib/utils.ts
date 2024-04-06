@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ToastOptions } from "react-toastify";
+import axios from "axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -17,20 +18,12 @@ export const ToastConfig: ToastOptions<any> = {
   theme: "colored",
 };
 
-export const getHeadlines = async () => {
-  const res = await fetch(
-    `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEXT_PUBLIC_NEWS_API}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    }
+export const getArticles = async (topic: string) => {
+  const res = await axios.get(
+    `https://newsapi.org/v2/everything?q=${topic}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API}`
   );
-  const data = await res.json();
 
-  return data.articles;
+  return res.data.articles;
 };
 
 export const getFirstTimeStatus = async (user: any) => {

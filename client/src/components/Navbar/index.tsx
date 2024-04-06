@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { getFirstTimeStatus } from "@/lib/utils";
-import { openForm,openPostForm } from "@/redux/reducers/formSlice";
+import { openForm, openPostForm } from "@/redux/reducers/formSlice";
 
 const Navbar = () => {
   const router = useRouter();
@@ -91,24 +91,24 @@ const Navbar = () => {
       </div>
       <div className={`flex gap-x-2 items-center justify-center`}>
         {user ? (
-          // <button
-          //   onClick={() => {
-          //     dispatch(destroyAuthInstance());
-          //   }}
-          //   className={classNames({
-          //     "text-primary font-normal bound text-[1.75rem]": true,
-          //     "flex justify-center items-center gap-2 cursor-pointer": true,
-          //     "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
-          //       true,
-          //     "px-2 py-1 rounded-md": true,
-          //   })}
-          // >
+          <button
+            onClick={() => {
+              dispatch(destroyAuthInstance());
+            }}
+            className={classNames({
+              "text-primary font-normal bound text-[1.75rem]": true,
+              "flex justify-center items-center gap-2 cursor-pointer": true,
+              "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
+                true,
+              "px-2 py-1 rounded-md": true,
+            })}
+          >
             <>
-            <a href="/api/auth/logout">
-              <LogoutOutlined />
-            </a>
-           </> 
-          // </button>
+              <a href="/api/auth/logout">
+                <LogoutOutlined />
+              </a>
+            </>
+          </button>
         ) : (
           <Link
             href="/api/auth/login"

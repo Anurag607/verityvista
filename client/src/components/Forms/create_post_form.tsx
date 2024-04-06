@@ -1,67 +1,35 @@
-import React, { useState,ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { closePostForm } from "@/redux/reducers/formSlice";
 import classNames from "classnames";
 import { useRouter } from "next-nprogress-bar";
-import axios from 'axios';
-
-// const directive = [
-//   "Define Your Role.",
-//   "State Your Profession",
-//   "State Your Location",
-// ];
-
-// const Profession = [
-//   { value: "Health and Medicine", label: "Health and Medicine" },
-//   { value: "News and Current Affairs", label: "News and Current Affairs" },
-//   { value: "Science and Technology", label: "Science and Technology" },
-//   { value: "Entertainment Industry", label: "Entertainment Industry" },
-//   {
-//     value: "Politics and Government Policies",
-//     label: "Politics and Government Policies",
-//   },
-// ];
-
-// const RoleOptions = [
-//   { value: "Expert", label: "Expert" },
-//   { value: "User", label: "User" },
-// ];
-
-// const options = [RoleOptions, Profession];
-// const fields = ["role", "profession", "location"];
+import axios from "axios";
 
 const AddPostPopup = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-//   const { authInstance } = useAppSelector((state: any) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
-//   const [currentForm, setCurrentForm] = useState(0);
   const [image, setImage] = useState(null);
   const [formData, setFormData] = useState<any>({
     category: "",
     heading: "",
     content: "",
     imageLink: "",
-    refLink: ""
+    refLink: "",
   });
 
-  const submitForm=async()=>{
-
-    try{
-
-        const response=await axios.post('url',formData);
-        const {data}=response;
-        console.log(data);
+  const submitForm = async () => {
+    try {
+      const response = await axios.post("url", formData);
+      const { data } = response;
+      console.log(data);
+    } catch {
+      console.log("some error occured in submit part");
     }
-    catch{
-
-        console.log('some error occured in submit part');
-    }
-
-  }
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file:any = e.target.files && e.target.files[0];
+    const file: any = e.target.files && e.target.files[0];
     if (file) setImage(file);
   };
 
@@ -76,25 +44,24 @@ const AddPostPopup = () => {
     if (!image) return;
 
     const imageformData = new FormData();
-    imageformData.append('file', image);
-    imageformData.append('upload_preset', 'your_upload_preset');
+    imageformData.append("file", image);
+    imageformData.append("upload_preset", "your_upload_preset");
 
     try {
-        const cloudinary_url = process.env.NEXT_PUBLIC_CLOUDINARY_URL;  
+      const cloudinary_url = process.env.NEXT_PUBLIC_CLOUDINARY_URL;
       const response = await fetch(`${cloudinary_url}`, {
-        method: 'POST',
-        body: imageformData
+        method: "POST",
+        body: imageformData,
       });
-      
+
       const data = await response.json();
       const { public_url, secure_url } = data;
-      setFormData({...formData,imageLink:public_url});
+      setFormData({ ...formData, imageLink: public_url });
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
     }
 
     await submitForm();
-    
   };
 
   const inputFields = [
@@ -151,74 +118,72 @@ const AddPostPopup = () => {
           </svg>
           <span className="sr-only">Close modal</span>
         </button>
-        {/* Popup Header - Label, color, pin */}
-        {/* <div className="border-b rounded-t py-3 dark:border-gray-600 flex justify-between items-center">
-          <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
-            {directive[currentForm]}
-          </h3>
-        </div> */}
         {/* Form... */}
         <form
           onSubmit={handleSubmit}
           className="relative flex flex-col items-center justify-center w-full"
         >
+          <div className={"flex flex-col gap-y-0 w-full relative"}>
+            {inputFields.map((el: (typeof inputFields)[0], i: number) => {
+              return (
+                <div className="relative mb-0 mt-2 w-full" key={i}>
+                  <input
+                    type="text"
+                    id={el.name}
+                    className={classNames({
+                      "block px-2.5 pb-2.5 pt-4 w-full": true,
+                      "text-sm text-gray-900 bg-gray-200 dark:bg-neutral-700":
+                        true,
+                      "rounded-lg border-1 border-gray-900": true,
+                      "appearance-none dark:text-white": true,
+                      "dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer":
+                        true,
+                    })}
+                    onChange={el.function}
+                    placeholder=" "
+                    required
+                  />
+                  <label
+                    htmlFor={el.name}
+                    className={classNames({
+                      "absolute top-2 left-1": true,
+                      "z-10 origin-[0] px-2": true,
+                      "peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500":
+                        true,
+                      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2":
+                        true,
+                      "peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4":
+                        true,
+                      "bg-transparent": true,
+                      "text-sm text-gray-500 dark:text-gray-400": true,
+                      "duration-300 transform -translate-y-4 scale-75": true,
+                    })}
+                  >
+                    {el.name}
+                  </label>
+                </div>
+              );
+            })}
 
-                <div className={"flex flex-col gap-y-0 w-full relative"}>
-                  {inputFields.map((el: (typeof inputFields)[0], i: number) => {
-                    return (
-                      <div className="relative mb-0 mt-2 w-full" key={i}>
-                        <input
-                          type="text"
-                          id={el.name}
-                          className={classNames({
-                            "block px-2.5 pb-2.5 pt-4 w-full": true,
-                            "text-sm text-gray-900 bg-gray-200 dark:bg-neutral-700":
-                              true,
-                            "rounded-lg border-1 border-gray-900": true,
-                            "appearance-none dark:text-white": true,
-                            "dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer":
-                              true,
-                          })}
-                          onChange={el.function}
-                          placeholder=" "
-                          required
-                        />
-                        <label
-                          htmlFor={el.name}
-                          className={classNames({
-                            "absolute top-2 left-1": true,
-                            "z-10 origin-[0] px-2": true,
-                            "peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500":
-                              true,
-                            "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2":
-                              true,
-                            "peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4":
-                              true,
-                            "bg-transparent": true,
-                            "text-sm text-gray-500 dark:text-gray-400": true,
-                            "duration-300 transform -translate-y-4 scale-75":
-                              true,
-                          })}
-                        >
-                          {el.name}
-                        </label>
-                      </div>
-                    );
-                  })}
-
-                <textarea
-                        rows={5}
-                        onChange={(e) => setFormData({...formData,"content":e.target.value})}
-                        placeholder={"enter the content here"}
-                        className={classNames({
-                        "h-full w-full px-4 py-2 bg-neutral-600 mt-3": true,
-                        "kanit z-10 text-[#ffffff] rounded-b-md resize-none": true,
-                        "outline-none border-none cursor-text": true,
-                        "rounded":"md"
-                        })}
-                    />
-                <input className="mt-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" onChange={handleFileChange}/>
-                </div>  
+            <textarea
+              rows={5}
+              onChange={(e) =>
+                setFormData({ ...formData, content: e.target.value })
+              }
+              placeholder={"enter the content here"}
+              className={classNames({
+                "h-full w-full px-4 py-2 bg-gray-200 mt-3": true,
+                "kanit z-10 text-[#ffffff] rounded-b-md resize-none": true,
+                "outline-none border-none cursor-text": true,
+                rounded: "md",
+              })}
+            />
+            <input
+              className="mt-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              type="file"
+              onChange={handleFileChange}
+            />
+          </div>
           {/* Submit... */}
           <div className="mt-4 w-full flex items-center justify-end">
             <button

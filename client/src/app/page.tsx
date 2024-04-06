@@ -1,12 +1,13 @@
 "use client";
 
 import DashboardPage from "@/_pages/dashboardPage";
-import { getHeadlines } from "@/lib/utils";
+import { getArticles } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import dummyData from "@/lib/dummyData.json";
 import Link from "next/link";
 import { updateData } from "@/redux/reducers/searchSlice";
+import { ContentPopup } from "@/components";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -14,18 +15,25 @@ export default function Home() {
   const matchingData = useAppSelector(
     (state: any) => state.searchBar.matchingData
   );
+  const [currentArticle, setCurrentArticle] = useState<any>(null);
 
   useEffect(() => {
     dispatch(updateData(dummyData.articles));
-    // setIsLoading(true);
-    // getHeadlines().then((res) => {
-    //   setData(res);
-    //   setIsLoading(false);
-    // });
+    setIsLoading(true);
+    getArticles("bitcoin").then((res: string[]) => {
+      console.log(res);
+      setIsLoading(false);
+    });
   }, [dispatch]);
 
   return (
     <>
+      {currentArticle && (
+        <ContentPopup
+          data={currentArticle}
+          close={() => setCurrentArticle(null)}
+        />
+      )}
       <DashboardPage>
         {matchingData &&
         matchingData !== undefined &&
@@ -129,7 +137,16 @@ export default function Home() {
               <div className={"relative w-full grid grid-cols-3 gap-4"}>
                 {(matchingData.slice(3, 9) || []).map((el: any, i: number) => {
                   return (
-                    <CategoryCard key={i} data={el} isLoading={isLoading} />
+                    <div
+                      key={i}
+                      className="w-full h-full relative"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setCurrentArticle(el);
+                      }}
+                    >
+                      <CategoryCard data={el} isLoading={isLoading} />
+                    </div>
                   );
                 })}
               </div>
