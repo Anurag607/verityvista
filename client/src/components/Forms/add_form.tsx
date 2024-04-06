@@ -5,6 +5,9 @@ import classNames from "classnames";
 import { useRouter } from "next-nprogress-bar";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastConfig } from "@/lib/utils";
 
 const directive = [
   "Define Your Role.",
@@ -40,7 +43,7 @@ const AddFormPopup = () => {
   const [formData, setFormData] = useState<any>({
     email: "",
     dname: "",
-    role: "",
+    role: "Expert",
     profession: "",
     country: "",
     district: "",
@@ -63,7 +66,7 @@ const AddFormPopup = () => {
       setCurrentForm(0);
       return;
     }
-    if (currentForm === 1 && formData.role === "Expert") {
+    if (currentForm === 0 && formData.role === "Expert") {
       setCurrentForm(1);
       return;
     }
@@ -80,6 +83,7 @@ const AddFormPopup = () => {
       .then((res) => {
         if (res.status === 200) {
           handleCloseForm();
+          toast.success("Registration Successful", ToastConfig);
         }
       });
   };
