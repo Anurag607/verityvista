@@ -22,6 +22,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register',core_view.Registration.as_view(),name='signup and hashing'),
-    path('checkreg',core_view.checkreg.as_view(),name="check for signup")
+    path('checkreg',core_view.checkreg.as_view(),name="check for signup"),
     path('fact/', include('factcheck.urls'))
 ]

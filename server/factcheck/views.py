@@ -76,15 +76,24 @@ def add_response(request, pk):
         return Response({'error': 'Invalid response'}, status=status.HTTP_400_BAD_REQUEST)
     try:
         fact_req = FactReqModel.objects.get(pk=pk)
-        fact_res = FactResModel.objects.create(foreignId=fact_req, message=request.data.get('message'), closed=False)
-        if response == -1:
-            fact_res.countNegRes += 1
-        elif response == 1:
-            fact_res.countPosRes += 1
-        else:
-            fact_res.noSentimentRes += 1
-
-        fact_res.save()
+        try:
+            fact_res = FactResModel.objects.get(foreignId=fact_req)
+            if response == -1:
+                fact_res.countNegRes += 1
+            elif response == 1:
+                fact_res.countPosRes += 1
+            else:
+                fact_res.noSentimentRes += 1
+            fact_res.save()
+        except:
+            fact_res = FactResModel.objects.create(foreignId=fact_req, message=request.data.get('message'), closed=False)
+            if response == -1:
+                fact_res.countNegRes += 1
+            elif response == 1:
+                fact_res.countPosRes += 1
+            else:
+                fact_res.noSentimentRes += 1
+            fact_res.save()
     except FactReqModel.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
