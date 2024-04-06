@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from core import views as core_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('register',core_view.Registration.as_view(),name='signup and hashing'),
+    path('checkreg',core_view.checkreg.as_view(),name="check for signup")
 ]
