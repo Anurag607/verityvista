@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { closeForm } from "@/redux/reducers/formSlice";
 import classNames from "classnames";
 import { useRouter } from "next-nprogress-bar";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import axios from "axios";
 
 const directive = [
   "Define Your Role.",
@@ -32,10 +34,12 @@ const fields = ["role", "profession", "location"];
 const AddFormPopup = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { authInstance } = useAppSelector((state: any) => state.auth);
+  const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
-  const [currentForm, setCurrentForm] = useState(0);
+  const [currentForm, setCurrentForm] = useState(-1);
   const [formData, setFormData] = useState<any>({
+    email: "",
+    dname: "",
     role: "",
     profession: "",
     country: "",
@@ -43,15 +47,41 @@ const AddFormPopup = () => {
     state: "",
   });
 
+  useEffect(() => {
+    if (user) {
+      setFormData({ ...formData, email: user.email });
+    }
+  }, [user]);
+
   const handleCloseForm = () => {
     dispatch(closeForm());
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    if (formData.role === "Expert") setCurrentForm(1);
-    if (formData.profession === "News and Current Affairs") setCurrentForm(2);
+    if (currentForm == -1) {
+      setCurrentForm(0);
+      return;
+    }
+    if (currentForm === 1 && formData.role === "Expert") {
+      setCurrentForm(1);
+      return;
+    }
+    if (
+      currentForm === 1 &&
+      formData.profession === "News and Current Affairs"
+    ) {
+      setCurrentForm(2);
+      return;
+    }
+
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_RENDER_SERVER}/register`, formData)
+      .then((res) => {
+        if (res.status === 200) {
+          handleCloseForm();
+        }
+      });
   };
 
   const inputFields = [
@@ -110,7 +140,7 @@ const AddFormPopup = () => {
         </button>
         <div className="rounded-t py-3 flex justify-between items-center">
           <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
-            {directive[currentForm]}
+            {currentForm === -1 ? "Your Name?" : directive[currentForm]}
           </h3>
         </div>
         <form
@@ -119,7 +149,51 @@ const AddFormPopup = () => {
         >
           <div className="relative flex sm:flex-row h-fit overflow-scroll sm:overflow-hidden sm:h-fit flex-col items-start justify-start sm:justify-center w-full sm:gap-4">
             <div className={"relative w-full flex items-center justify-center"}>
-              {currentForm <= 1 && (
+              {currentForm == -1 && (
+                <div className="relative mb-0 mt-2 w-full">
+                  <input
+                    type="text"
+                    id={"dname"}
+                    className={classNames({
+                      "block px-2.5 pb-2.5 pt-4 w-full": true,
+                      "text-sm text-gray-900 bg-gray-200 dark:bg-neutral-700":
+                        true,
+                      "rounded-lg border-1 border-gray-900": true,
+                      "appearance-none dark:text-white": true,
+                      "dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer":
+                        true,
+                    })}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setFormData({
+                        ...formData,
+                        dname: e.target.value,
+                      });
+                    }}
+                    placeholder=" "
+                    required
+                  />
+                  <label
+                    htmlFor={"dname"}
+                    className={classNames({
+                      "absolute top-2 left-1": true,
+                      "z-10 origin-[0] px-2": true,
+                      "peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500":
+                        true,
+                      "peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2":
+                        true,
+                      "peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4":
+                        true,
+                      "bg-transparent": true,
+                      "text-sm text-gray-500 dark:text-gray-400": true,
+                      "duration-300 transform -translate-y-4 scale-75": true,
+                    })}
+                  >
+                    {"Enter Your Alias"}
+                  </label>
+                </div>
+              )}
+              {currentForm <= 1 && currentForm >= 0 && (
                 <div
                   className={
                     "w-full flex items-cneter justify-center bg-neutral-200 rounded-lg"

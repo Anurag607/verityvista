@@ -33,8 +33,11 @@ const Navbar = () => {
   React.useEffect(() => {
     if (user) {
       dispatch(setAuthInstance(user));
-      dispatch(openForm());
-      // const status = getFirstTimeStatus(user);
+      getFirstTimeStatus(user.email).then((res) => {
+        if (res.status === 200) {
+          dispatch(openForm());
+        }
+      });
     }
   }, [user, dispatch]);
 

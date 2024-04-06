@@ -21,7 +21,7 @@ export default function Home() {
     dispatch(updateData(dummyData.articles));
     setIsLoading(true);
     getArticles("bitcoin").then((res: string[]) => {
-      console.log(res);
+      // console.log(res);
       setIsLoading(false);
     });
   }, [dispatch]);
