@@ -2,12 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import DarkMode from "../DarkMode";
 import Image from "next/image";
-import {
-  CaretLeftOutlined,
-  CaretRightOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
-import { openSidebar } from "@/redux/reducers/sidebarSlice";
+import { LogoutOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next-nprogress-bar";
 import {
@@ -24,7 +19,6 @@ const Navbar = () => {
   const router = useRouter();
   const { user } = useUser();
   const dispatch = useAppDispatch();
-  const { isSidebarOpen } = useAppSelector((state: any) => state.sidebar);
   const { authInstance } = useAppSelector((state: any) => state.auth);
 
   const handleOpenForm = () => {
@@ -56,23 +50,6 @@ const Navbar = () => {
       })}
     >
       <div className="w-fit h-fit flex justify-center items-center gap-4 relative">
-        <div
-          onClick={() => dispatch(openSidebar())}
-          className={classNames({
-            hidden: true,
-            "mobile:w-[32px] mobile:h-[32px] w-[42px] h-[42px] items-center justify-center":
-              true,
-            [`${
-              !isSidebarOpen
-                ? "bg-primary text-main"
-                : "bg-[#e8e8e8] text-[#37474f]"
-            } mobile:text-[0.95rem] text-3xl rounded-r-lg`]: true,
-            "z-[100001] transition-all": true,
-            "fixed left-0": true,
-          })}
-        >
-          {isSidebarOpen ? <CaretLeftOutlined /> : <CaretRightOutlined />}
-        </div>
         <div
           onClick={() => router.push("/")}
           className="w-fit h-fit flex justify-center items-center gap-2 relative cursor-pointer"
