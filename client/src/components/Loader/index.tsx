@@ -4,7 +4,8 @@ import './loader.scss'
 const Loader : React.FC= () => {
   return (
     
-    <svg viewBox="0 0 100 100">
+    <div className='h-full w-full absolute'>
+      <svg className='h-4 w-4' viewBox="0 0 100 100">
   <g className='frame'>
    <circle cx="50" cy="50" r="159"/>
    <circle cx="50" cy="50" r="150"/>
@@ -23,6 +24,7 @@ const Loader : React.FC= () => {
 		<feGaussianBlur stdDeviation="6" />
 	</filter>
 </svg>
+    </div>
     
   )
 }
