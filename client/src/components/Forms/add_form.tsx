@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastConfig } from "@/lib/utils";
+import { setRole } from "@/redux/reducers/authSlice";
 
 const directive = [
   "Define Your Role.",
@@ -48,7 +49,7 @@ const AddFormPopup = () => {
     country: "",
     district: "",
     state: "",
-    verification_img:""
+    verification_img: "",
   });
 
   const [image, setImage] = useState(null);
@@ -89,6 +90,7 @@ const AddFormPopup = () => {
 
     if (!image) return;
 
+    setIsLoading(true);
     const imageformData = new FormData();
     imageformData.append("upload_preset", "nextBit");
 
@@ -133,6 +135,15 @@ const AddFormPopup = () => {
       .then((res) => {
         if (res.status === 200) {
           handleCloseForm();
+          dispatch(
+            setRole({
+              email: user?.email,
+              display_name: formData.dname,
+              role: formData.role,
+              profession: formData.profession,
+            })
+          );
+          setIsLoading(false);
           toast.success("Registration Successful", ToastConfig);
         }
       });
@@ -250,7 +261,7 @@ const AddFormPopup = () => {
               {currentForm <= 1 && currentForm >= 0 && (
                 <div
                   className={
-                    "w-full flex items-cneter justify-center bg-neutral-200 rounded-lg"
+                    "w-full flex flex-col items-cneter justify-center bg-neutral-200 rounded-lg p-3"
                   }
                 >
                   <select
@@ -275,11 +286,13 @@ const AddFormPopup = () => {
                       );
                     })}
                   </select>
-                  <input
-              className="mt-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              type="file"
-              onChange={handleFileChange}
-            />
+                  {currentForm === 1 ? (
+                    <input
+                      className="mt-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
+                  ) : null}
                 </div>
               )}
               {currentForm === 2 && (
@@ -343,7 +356,7 @@ const AddFormPopup = () => {
                   true,
               })}
             >
-              {!isLoading ? "Proceed" : <></>}
+              {!isLoading ? "Proceed" : `${progress}% uploaded...`}
             </button>
           </div>
         </form>

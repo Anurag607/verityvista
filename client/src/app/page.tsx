@@ -8,7 +8,12 @@ import dummyData from "@/lib/dummyData.json";
 import Link from "next/link";
 import { updateData } from "@/redux/reducers/searchSlice";
 import { ContentPopup } from "@/components";
-import { TiArrowDownOutline, TiArrowDownThick, TiArrowUpOutline, TiArrowUpThick } from "react-icons/ti";
+import {
+  TiArrowDownOutline,
+  TiArrowDownThick,
+  TiArrowUpOutline,
+  TiArrowUpThick,
+} from "react-icons/ti";
 import classNames from "classnames";
 import { setVote } from "@/redux/reducers/voteSlice";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -54,14 +59,10 @@ export default function Home() {
                 "flex flex-col items-between justify-start relative w-[50%] h-[70vh] rounded-lg shadow-lg shadow-[#c5c5c5] dark:shadow-[#333333] bg-neutral-200 p-2 border-2 border-neutral-300 overflow-hidden"
               }
             >
-              <div
-                className={
-                  "flex-1 rounded-t-2xl relative grid place-items-center cursor-pointer"
-                }
-              >
+              <div className={"h-2/3 rounded-t-2xl relative cursor-pointer"}>
                 <div
                   className={
-                    "flex-1 w-full h-full z-[100] bg-gradient-to-t from-neutral-300 opacity-75 to-transparent absolute bottom-0"
+                    "w-full h-full z-[100] bg-gradient-to-t from-neutral-300 opacity-75 to-transparent absolute bottom-0"
                   }
                 />
                 <img
@@ -88,7 +89,7 @@ export default function Home() {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          upvotePost(matchingData[0].id,role.display_name)
+                          upvotePost(matchingData[0].id, role.display_name);
                           dispatch(
                             setVote({ id: matchingData[0].id, vote: 1 })
                           );
@@ -114,7 +115,7 @@ export default function Home() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        downvotePost(matchingData[0].id,role.display_name)
+                        downvotePost(matchingData[0].id, role.display_name);
                         dispatch(setVote({ id: matchingData[0].id, vote: 0 }));
                       }}
                     >
@@ -247,7 +248,6 @@ const CategoryCard = ({ data, setCurrentArticle, isLoading }: any) => {
   const votes = useAppSelector((state: any) => state.vote.votes);
   const role = useAppSelector((state: any) => state.auth.role);
 
-
   const handleClick = (e: any) => {
     e.preventDefault();
     setCurrentArticle(data);
@@ -294,7 +294,7 @@ const CategoryCard = ({ data, setCurrentArticle, isLoading }: any) => {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      upvotePost(data.id,role.display_name);
+                      upvotePost(data.id, role.display_name);
                       dispatch(setVote({ id: data.id, vote: 1 }));
                     }}
                   >
@@ -316,7 +316,7 @@ const CategoryCard = ({ data, setCurrentArticle, isLoading }: any) => {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    downvotePost(data.id,role.display_name);
+                    downvotePost(data.id, role.display_name);
                     dispatch(setVote({ id: data.id, vote: 0 }));
                   }}
                 >
