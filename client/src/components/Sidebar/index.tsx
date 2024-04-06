@@ -23,7 +23,13 @@ const Sidebar = () => {
         "bg-center bg-cover bg-no-repeat": true,
       })}
       ref={ref}
-    ></div>
+    >
+      <div
+        className={
+          "w-full h-full z-[100] bg-gradient-to-tr from-neutral-300 opacity-25 to-transparent absolute bottom-0"
+        }
+      />
+    </div>
   );
 };
 export default Sidebar;

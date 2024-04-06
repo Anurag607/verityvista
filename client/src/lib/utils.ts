@@ -32,3 +32,20 @@ export const getHeadlines = async () => {
 
   return data.articles;
 };
+
+export const getFirstTimeStatus = async (user: any) => {
+  const res = await fetch(
+    `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEXT_PUBLIC_NEWS_API}`,
+    {
+      body: JSON.stringify(user),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }
+  );
+  const data = await res.json();
+
+  return data;
+};

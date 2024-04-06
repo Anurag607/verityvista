@@ -7,6 +7,7 @@ import formSlice from "./reducers/formSlice";
 import imgUploadSlice from "./reducers/imgUploadSlice";
 import sidebarSlice from "./reducers/sidebarSlice";
 import searchSlice from "./reducers/searchSlice";
+import contentSlice from "./reducers/contentSlice";
 
 export default combineReducers({
   sidebar: sidebarSlice,
@@ -16,4 +17,5 @@ export default combineReducers({
   image: imgUploadSlice,
   drawer: drawerSlice,
   auth: authSlice,
+  content: contentSlice,
 });

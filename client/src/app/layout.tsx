@@ -74,15 +74,15 @@ export default function RootLayout({ children }: { children: any }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
           rel="icon"
-          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.ico`}
         />
         <link
           rel="shortcut icon"
-          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.ico`}
         />
         <link
           rel="apple-touch-icon"
-          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.ico`}
         />
         <title>{"VerityVista"}</title>
       </head>
@@ -91,7 +91,7 @@ export default function RootLayout({ children }: { children: any }) {
         <body
           className={classNames({
             [rubik.className]: true,
-            "bg-[url('/BG-1.png')] dark:bg-[url('/BG.png')] bg-center bg-cover bg-no-repeat":
+            "bg-[url('/BG-1.svg')] dark:bg-[url('/BG.png')] bg-center bg-contain":
               true,
           })}
           suppressHydrationWarning={true}

@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import Search from "./Search";
 import Filter from "./Filter";
 import OffCanvasPopup from "./OffCanvasPopup";
+import ContentPopup from "./ContentPopup";
 
 export {
   Dashboard,
@@ -20,4 +21,5 @@ export {
   Search,
   Filter,
   OffCanvasPopup,
+  ContentPopup,
 };

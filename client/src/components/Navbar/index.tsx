@@ -10,9 +10,14 @@ import {
 import { openSidebar } from "@/redux/reducers/sidebarSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next-nprogress-bar";
-import { destroyAuthInstance } from "@/redux/reducers/authSlice";
+import {
+  destroyAuthInstance,
+  setAuthInstance,
+} from "@/redux/reducers/authSlice";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { getFirstTimeStatus } from "@/lib/utils";
+import { openForm } from "@/redux/reducers/formSlice";
 
 const Navbar = () => {
   const router = useRouter();
@@ -22,10 +27,12 @@ const Navbar = () => {
   const { authInstance } = useAppSelector((state: any) => state.auth);
 
   React.useEffect(() => {
-    if (!authInstance) {
-      router.push(`/`);
+    if (user) {
+      dispatch(setAuthInstance(user));
+      dispatch(openForm());
+      // const status = getFirstTimeStatus(user);
     }
-  }, [authInstance]);
+  }, [user]);
 
   return (
     <nav
@@ -38,7 +45,6 @@ const Navbar = () => {
         "dark:shadow-[0px_1px_2px_0_rgba(255,255,255,0.1)] shadow": false, //dark-mode and shadow
       })}
     >
-      <div>{user && user.email}</div>
       <div className="w-fit h-fit flex justify-center items-center gap-4 relative">
         <div
           onClick={() => dispatch(openSidebar())}
@@ -80,7 +86,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className={`flex gap-x-2 items-center justify-center`}>
-        {authInstance ? (
+        {authInstance || user ? (
           <Link
             href="/api/auth/logout"
             onClick={() => {
