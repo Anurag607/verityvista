@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'rest_framework',
+    'factcheck',
     "core",
 ]
 
@@ -80,7 +82,7 @@ DATABASES = {
         "NAME": "verityvista",
         "USER": "fusion_admin",
         "PASSWORD": "hello123",
-        "HOST":"127.0.0.1",
+        "HOST": "127.0.0.1",
         "PORT": "5432",
     }
 }
