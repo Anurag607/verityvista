@@ -29,3 +29,9 @@ class FactResModel(models.Model):
 class VoteRes(models.Model):
     userID = models.ForeignKey(user, to_field="display_name", on_delete=models.CASCADE)
     postreqID = models.ForeignKey(FactReqModel, on_delete=models.CASCADE)
+    
+    
+class VerdictRes(models.Model):
+    userID = models.ForeignKey(user, to_field="display_name", on_delete=models.CASCADE)
+    postresID = models.ForeignKey(FactReqModel, on_delete=models.CASCADE)
+    
