@@ -1,6 +1,6 @@
 from django.db import models
 
-ROLES = [('user','normal user'),('expert','domain expert')]
+ROLES = [('user','normal user'),('expert','domain expert'),('admin','moderator')]
 
 # Create your models here.
 class user(models.Model):
@@ -12,8 +12,12 @@ class user(models.Model):
         return str(self.display_name)
 
 class location(models.Model):
-    username = models.ForeignKey(user,max_length=50,on_delete=models.CASCADE)
+    username = models.ForeignKey(user,to_field='display_name',max_length=50,on_delete=models.CASCADE)
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
     
+class expert_request(models.Model):
+    username = models.ForeignKey(user,to_field='display_name',max_length=50,on_delete=models.CASCADE)
+    verification_img = models.CharField(max_length=100)
+    status = models.CharField(max_length=50,default='pending')

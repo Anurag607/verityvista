@@ -23,5 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register',core_view.Registration.as_view(),name='signup and hashing'),
     path('checkreg',core_view.checkreg.as_view(),name="check for signup"),
+    path('getexreq',core_view.getexpertreq.as_view(),name="get requests for expert"),
+    path('respondex/<int:pk>/',core_view.respondtoExpertRequest,name="response for expert requests"),
     path('fact/', include('factcheck.urls'))
 ]
