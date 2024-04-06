@@ -86,67 +86,62 @@ export default function RootLayout({ children }: { children: any }) {
         />
         <title>{"VerityVista"}</title>
       </head>
-
-      <UserProvider>
-        <body
-          className={classNames({
-            [rubik.className]: true,
-            "bg-[url('/BG-1.svg')] dark:bg-[url('/BG.png')] bg-center bg-contain":
-              true,
-          })}
-          suppressHydrationWarning={true}
-        >
-          <Suspense fallback={<div />}>
-            <ProgressBar
-              height="4px"
-              color="#1b1b1b"
-              options={{ showSpinner: true }}
-              shallowRouting
-            />
+      <body
+        className={classNames({
+          [rubik.className]: true,
+          "bg-[url('/BG-1.svg')] dark:bg-[url('/BG.png')] bg-center bg-contain":
+            true,
+        })}
+        suppressHydrationWarning={true}
+      >
+        <Suspense fallback={<div />}>
+          <ProgressBar
+            height="4px"
+            color="#1b1b1b"
+            options={{ showSpinner: true }}
+            shallowRouting
+          />
+          <UserProvider>
             <ReduxProviders>
-              <UserProvider>
-                <QueryClientProvider client={queryClient}>
-                  <ScrollToTop _children={null} />
-                  <ErrorBoundaryWrapper>
+              <QueryClientProvider client={queryClient}>
+                <ScrollToTop _children={null} />
+                <ErrorBoundaryWrapper>
+                  <div
+                    className={classNames({
+                      "relative max-w-screen max-h-screen gap-x-0": true,
+                      "flex flex-row items-start justify-end": true,
+                    })}
+                  >
                     <div
                       className={classNames({
-                        "relative max-w-screen max-h-screen gap-x-0": true,
-                        "flex flex-row items-start justify-end": true,
+                        [`relative h-screen ${
+                          isAuthPage() ? "w-screen" : "w-[calc(100vw_-_4.5rem)]"
+                        } flex flex-col items-start justify-between`]: true,
+                        "mobile:w-screen": true,
                       })}
                     >
-                      <div
-                        className={classNames({
-                          [`relative h-screen ${
-                            isAuthPage()
-                              ? "w-screen"
-                              : "w-[calc(100vw_-_4.5rem)]"
-                          } flex flex-col items-start justify-between`]: true,
-                          "mobile:w-screen": true,
-                        })}
-                      >
-                        {!isAuthPage() && <Navbar />}
-                        {children}
-                        {!isAuthPage() && (
-                          <div className={"w-full h-[2rem] bg-transparent"} />
-                        )}
-                      </div>
+                      {!isAuthPage() && <Navbar />}
+                      {children}
+                      {!isAuthPage() && (
+                        <div className={"w-full h-[2rem] bg-transparent"} />
+                      )}
                     </div>
-                  </ErrorBoundaryWrapper>
-                  <ScrollTop>
-                    <div className="z-[100000001] w-10 h-10 aspect-square rounded-full bg-primary text-white grid place-items-center cursor-pointer">
-                      <CaretUpOutlined />
-                    </div>
-                  </ScrollTop>
-                  {!isAuthPage() && <OffCanvasPopup />}
-                  {!isAuthPage() && <Sidebar />}
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </QueryClientProvider>
-                <ToastContainer autoClose={1000} hideProgressBar />
-              </UserProvider>
+                  </div>
+                </ErrorBoundaryWrapper>
+                <ScrollTop>
+                  <div className="z-[100000001] w-10 h-10 aspect-square rounded-full bg-primary text-white grid place-items-center cursor-pointer">
+                    <CaretUpOutlined />
+                  </div>
+                </ScrollTop>
+                {!isAuthPage() && <OffCanvasPopup />}
+                {!isAuthPage() && <Sidebar />}
+                <ReactQueryDevtools initialIsOpen={false} />
+              </QueryClientProvider>
+              <ToastContainer autoClose={1000} hideProgressBar />
             </ReduxProviders>
-          </Suspense>
-        </body>
-      </UserProvider>
+          </UserProvider>
+        </Suspense>
+      </body>
     </html>
   );
 }

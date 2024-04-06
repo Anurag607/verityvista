@@ -1,29 +1,35 @@
 "use client";
 
-import DashboardPage from "@/pages/dashboardPage";
+import DashboardPage from "@/_pages/dashboardPage";
 import { getHeadlines } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import dummyData from "@/lib/dummyData.json";
 import Link from "next/link";
+import { updateData } from "@/redux/reducers/searchSlice";
 
 export default function Home() {
-  const [data, setData] = useState<any>([]);
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const matchingData = useAppSelector(
+    (state: any) => state.searchBar.matchingData
+  );
 
   useEffect(() => {
-    setData(dummyData.articles as any);
+    dispatch(updateData(dummyData.articles));
     // setIsLoading(true);
     // getHeadlines().then((res) => {
     //   setData(res);
     //   setIsLoading(false);
     // });
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
-      {data.length > 0 ? (
-        <DashboardPage>
+      <DashboardPage>
+        {matchingData &&
+        matchingData !== undefined &&
+        matchingData.length > 0 ? (
           <div
             className={
               "flex items-start justify-start gap-4 flex-wrap h-fit w-[92.5%] mx-auto relative"
@@ -44,84 +50,103 @@ export default function Home() {
                 />
                 <img
                   loading="lazy"
-                  src={data[0].urlToImage}
-                  alt={data[0].title}
+                  src={matchingData[0].urlToImage}
+                  alt={matchingData[0].title}
                   className="relative w-full h-auto object-cover select-none grayscale rounded-t-2xl fadeout-overlay"
                 />
               </div>
               <div className="cursor-default !bg-neutral-500 !bg-opacity-50 glass-effect w-full py-4 pl-4 rounded-b-2xl rounded-t-0 z-50 whitespace-wrap text-sm font-medium grid place-items-left text-white">
-                {data[0].title.slice(0, 75)}...
+                {matchingData[0].title.slice(0, 75)}...
               </div>
-              <p className={"mt-4 text-neutral-600 font-medium pl-3"}>
-                {data[0].description}
+              <p
+                className={
+                  "mt-4 text-neutral-600 font-medium pl-3 line-clamp-3"
+                }
+              >
+                {matchingData[0].description}
               </p>
               <Link
-                href={data[0].url}
+                href={matchingData[0].url}
                 className={
                   "bg-neutral-500 text-white rounded-lg hover:underline cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate mt-6"
                 }
               >
-                {`${data[0].url.slice(0, 85)}...`}
+                {`${matchingData[0].url.slice(0, 85)}...`}
               </Link>
             </div>
-            <div
-              className={
-                "relative w-[47.5%] h-[70vh] flex flex-col items-around justify-center gap-y-6"
-              }
-            >
-              {[data[1], data[2]].map((el, i) => {
-                return (
-                  <div
-                    key={i}
-                    className={
-                      "relative w-full h-[33vh] rounded-lg shadow-lg shadow-[#c5c5c5] dark:shadow-[#333333] bg-neutral-200 p-4 border-2 border-neutral-300 flex items-start justify-start gap-x-3"
-                    }
-                  >
-                    <div className="relative w-[52.5%] h-full">
-                      <CategoryCard data={el} isLoading={isLoading} />
-                    </div>
+            {matchingData !== undefined &&
+            matchingData !== null &&
+            matchingData.length > 1 ? (
+              <div
+                className={
+                  "relative w-[47.5%] h-[70vh] flex flex-col items-around justify-start gap-y-6"
+                }
+              >
+                {[matchingData[1], matchingData[2]].map((el, i) => {
+                  if (el === undefined) return null;
+                  return (
                     <div
+                      key={i}
                       className={
-                        "h-full flex-1 flex flex-col justify-around items-between overflow-hidden relative"
+                        "relative w-full h-[33vh] rounded-lg shadow-lg shadow-[#c5c5c5] dark:shadow-[#333333] bg-neutral-200 p-4 border-2 border-neutral-300 flex items-start justify-start gap-x-3"
                       }
                     >
-                      <p
+                      <div className="relative w-[52.5%] h-full">
+                        <CategoryCard data={el} isLoading={isLoading} />
+                      </div>
+                      <div
                         className={
-                          "mt-4 text-neutral-600 font-medium pl-3 line-clamp-5"
+                          "h-full flex-1 flex flex-col justify-around items-between overflow-hidden relative"
                         }
                       >
-                        {el.description}
-                      </p>
-                      <Link
-                        href={el.url}
-                        className={
-                          "bg-neutral-500 text-white rounded-lg hover:!underline !cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate mt-6 w-full"
-                        }
-                      >
-                        {`${el.url.slice(0, 35)}...`}
-                      </Link>
+                        <p
+                          className={
+                            "mt-4 text-neutral-600 font-medium pl-3 line-clamp-5"
+                          }
+                        >
+                          {el.description}
+                        </p>
+                        <Link
+                          href={el.url}
+                          className={
+                            "bg-neutral-500 text-white rounded-lg hover:!underline !cursor-pointer transition-all text-sm p-2 line-clamp-1 truncate mt-6 w-full"
+                          }
+                        >
+                          {`${el.url.slice(0, 35)}...`}
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <></>
+            )}
 
-            <div className={"relative w-full grid grid-cols-3 gap-4"}>
-              {(data.slice(3, 9) || []).map((el: any, i: number) => {
-                return <CategoryCard data={el} isLoading={isLoading} />;
-              })}
-            </div>
+            {matchingData !== undefined &&
+            matchingData !== null &&
+            matchingData.length > 3 ? (
+              <div className={"relative w-full grid grid-cols-3 gap-4"}>
+                {(matchingData.slice(3, 9) || []).map((el: any, i: number) => {
+                  return (
+                    <CategoryCard key={i} data={el} isLoading={isLoading} />
+                  );
+                })}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
-        </DashboardPage>
-      ) : (
-        <></>
-      )}
+        ) : (
+          <></>
+        )}
+      </DashboardPage>
     </>
   );
 }
 
 const CategoryCard = ({ data, isLoading }: any) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClick = (e: any) => {
     e.preventDefault();

@@ -32,7 +32,7 @@ const Navbar = () => {
       dispatch(openForm());
       // const status = getFirstTimeStatus(user);
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   return (
     <nav

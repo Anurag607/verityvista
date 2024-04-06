@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { Search, Filter } from "@/components";
+import { Search } from "@/components";
 
 const HomePage = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -21,7 +21,6 @@ const HomePage = ({ children }: { children: React.ReactNode }) => {
         })}
       >
         <Search />
-        <Filter />
       </div>
       {children}
     </div>

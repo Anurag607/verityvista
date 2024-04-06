@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const formSlice = createSlice({
-  name: "form",
+const contentSlice = createSlice({
+  name: "content",
   initialState: {
     content: null,
     isContentOpen: false,
@@ -19,5 +19,5 @@ const formSlice = createSlice({
   },
 });
 
-export const { openContent, closeContent } = formSlice.actions;
-export default formSlice.reducer;
+export const { openContent, closeContent } = contentSlice.actions;
+export default contentSlice.reducer;

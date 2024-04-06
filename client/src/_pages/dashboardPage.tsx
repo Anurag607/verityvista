@@ -1,12 +1,12 @@
 import React from "react";
 import classNames from "classnames";
-import { Search, Filter, ContentPopup } from "@/components";
-import { useSelector } from "react-redux";
+import { Search, ContentPopup } from "@/components";
 import AddFormPopup from "@/components/Forms/add_form";
+import { useAppSelector } from "@/redux/hooks";
 
 const DashboardPage = ({ children }: { children: React.ReactNode }) => {
-  const isFormOpem = useSelector((state: any) => state.form.isFormOpen);
-  const isContentOpem = useSelector(
+  const isFormOpem = useAppSelector((state: any) => state.form.isFormOpen);
+  const isContentOpem = useAppSelector(
     (state: any) => state.content.isContentOpen
   );
   return (
@@ -29,7 +29,6 @@ const DashboardPage = ({ children }: { children: React.ReactNode }) => {
         })}
       >
         <Search />
-        <Filter />
         {isFormOpem && <AddFormPopup />}
         {isContentOpem && <ContentPopup />}
       </div>
