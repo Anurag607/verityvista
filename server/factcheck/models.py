@@ -1,7 +1,5 @@
 from django.db import models
-
-# Create your models here.
-
+from core.models import user
 class FactReqModel(models.Model):
     category = models.CharField(max_length=50)
     heading = models.CharField(max_length=150)
@@ -27,3 +25,7 @@ class FactResModel(models.Model):
     noSentimentRes = models.IntegerField(default = 0)
     message = models.CharField(max_length=200, blank=True, null=True)
     closed = models.BooleanField(default = False)
+    
+class VoteRes(models.Model):
+    userID = models.ForeignKey(user, to_field="display_name", on_delete=models.CASCADE)
+    postreqID = models.ForeignKey(FactReqModel, on_delete=models.CASCADE)

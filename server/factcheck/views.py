@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .models import FactReqModel, FactResModel
-from .serializers import FactReqModelSerializer, FactResModelSerializer
+from .models import FactReqModel, FactResModel, VoteRes
+from .serializers import FactReqModelSerializer, FactResModelSerializer, VoteResModelSerializer
 
 class FactReqModelListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = FactReqModelSerializer
@@ -51,6 +51,13 @@ class FactResModelRetrieveAPIView(generics.RetrieveAPIView):
 def upvote(request, pk):
     try:
         fact_req = FactReqModel.objects.get(pk=pk)
+        try:
+            check_vote = VoteRes.objects.get(userID=display_name, postreqID=postId)
+            return Response({"message":"Already responded"}, status=status.HTTP_208_ALREADY_REPORTED)
+        except:
+            new_vote = VoteRes.objects.create(userID=display_name,postreqID=postId)
+            new_vote.save()
+            return Response({"message":"success"}, status=status.HTTP_202_ACCEPTED)
     except FactReqModel.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -60,13 +67,25 @@ def upvote(request, pk):
 
 @api_view(['POST'])
 def downvote(request, pk):
+    data = request.data
+    display_name = data['dname']
+    postId = data['id']
+    
     try:
         fact_req = FactReqModel.objects.get(pk=pk)
+        try:
+            check_vote = VoteRes.objects.get(userID=display_name, postreqID=postId)
+            return Response({"message":"Already responded"}, status=status.HTTP_208_ALREADY_REPORTED)
+        except:
+            new_vote = VoteRes.objects.create(userID=display_name,postreqID=postId)
+            new_vote.save()
+            return Response({"message":"success"}, status=status.HTTP_202_ACCEPTED)
     except FactReqModel.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     fact_req.down()
     serializer = FactReqModelSerializer(fact_req)
+    
     return Response(serializer.data)
 
 @api_view(['POST'])

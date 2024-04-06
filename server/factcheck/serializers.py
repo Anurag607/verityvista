@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import FactReqModel, FactResModel
+from .models import FactReqModel, FactResModel, VoteRes
 
 class FactReqModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,4 +9,10 @@ class FactReqModelSerializer(serializers.ModelSerializer):
 class FactResModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = FactResModel
+        fields = '__all__'
+
+
+class VoteResModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VoteRes
         fields = '__all__'
