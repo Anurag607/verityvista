@@ -49,7 +49,9 @@ const Search = () => {
             "dark:focus:ring-blue-500 dark:focus:border-blue-500": true, //on focus (dark) styling
             "dark:bg-neutral-800 dark:border-neutral-600": true, // bg and border (dark) stylings
             "dark:placeholder-gray-400 dark:text-white": true, //text (dark) styling
-            "cursor-text": true,
+            //cursor and focus
+            "cursor-text focus:!border-neutral-800 focus:!outline-neutral-800":
+              true,
           })}
           placeholder="Search for items"
           value={searchParams}

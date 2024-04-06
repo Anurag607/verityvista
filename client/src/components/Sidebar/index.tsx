@@ -18,7 +18,7 @@ const Sidebar = () => {
         "flex items-center justify-center z-[100001]": true,
         "bg-[#37352F] text-zinc-50": true,
         "fixed left-0 top-0": true,
-        "h-screen mobile:w-[3rem] w-[6rem]": true,
+        "h-screen mobile:w-[3rem] w-[5.5rem]": true,
         "transition-all ease-in-out": true,
         "bg-center bg-cover bg-no-repeat": true,
       })}

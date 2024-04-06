@@ -16,3 +16,19 @@ export const ToastConfig: ToastOptions<any> = {
   progress: undefined,
   theme: "colored",
 };
+
+export const getHeadlines = async () => {
+  const res = await fetch(
+    `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEXT_PUBLIC_NEWS_API}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }
+  );
+  const data = await res.json();
+
+  return data.articles;
+};

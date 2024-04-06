@@ -11,12 +11,12 @@ import { openSidebar } from "@/redux/reducers/sidebarSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next-nprogress-bar";
 import { destroyAuthInstance } from "@/redux/reducers/authSlice";
-import { useUser } from '@auth0/nextjs-auth0/client';
-
+import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const Navbar = () => {
   const router = useRouter();
-  const {user}=useUser();
+  const { user } = useUser();
   const dispatch = useAppDispatch();
   const { isSidebarOpen } = useAppSelector((state: any) => state.sidebar);
   const { authInstance } = useAppSelector((state: any) => state.auth);
@@ -38,7 +38,7 @@ const Navbar = () => {
         "dark:shadow-[0px_1px_2px_0_rgba(255,255,255,0.1)] shadow": false, //dark-mode and shadow
       })}
     >
-      <div>{user&&user.email}</div>
+      <div>{user && user.email}</div>
       <div className="w-fit h-fit flex justify-center items-center gap-4 relative">
         <div
           onClick={() => dispatch(openSidebar())}
@@ -80,27 +80,25 @@ const Navbar = () => {
         </div>
       </div>
       <div className={`flex gap-x-2 items-center justify-center`}>
-        {user ? (
-          // <button
-          //   onClick={() => {
-          //     dispatch(destroyAuthInstance());
-          //   }}
-          //   className={classNames({
-          //     "text-primary font-normal bound text-[1.75rem]": true,
-          //     "flex justify-center items-center gap-2 cursor-pointer": true,
-          //     "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
-          //       true,
-          //     "px-2 py-1 rounded-md": true,
-          //   })}
-          // >
-
-            <a href="/api/auth/logout">
-              <LogoutOutlined />
-            </a>
-          // </button>
+        {authInstance ? (
+          <Link
+            href="/api/auth/logout"
+            onClick={() => {
+              dispatch(destroyAuthInstance());
+            }}
+            className={classNames({
+              "text-primary font-normal bound text-[1.75rem]": true,
+              "flex justify-center items-center gap-2 cursor-pointer": true,
+              "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
+                true,
+              "px-2 py-1 rounded-md": true,
+            })}
+          >
+            <LogoutOutlined />
+          </Link>
         ) : (
-          <a href="/api/auth/login">
-          <button
+          <Link
+            href="/api/auth/login"
             className={classNames({
               "text-primary font-normal bound text-sm": true,
               "mobile-sm:hidden flex justify-center items-center gap-2 cursor-pointer":
@@ -111,8 +109,7 @@ const Navbar = () => {
             })}
           >
             {"Login"}
-          </button>
-          </a>
+          </Link>
         )}
         <DarkMode />
       </div>
