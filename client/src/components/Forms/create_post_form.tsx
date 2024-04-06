@@ -4,43 +4,40 @@ import { closePostForm } from "@/redux/reducers/formSlice";
 import classNames from "classnames";
 import { useRouter } from "next-nprogress-bar";
 import axios from "axios";
-import { CloudImage } from "@/cloudinary/CloudImage";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastConfig } from "@/lib/utils";
+
+const initFormData = {
+  category: "",
+  heading: "",
+  content: "",
+  imageLink: "",
+  refLink: "",
+};
 
 const AddPostPopup = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
-  const [formData, setFormData] = useState<any>({
-    category: "",
-    heading: "",
-    content: "",
-    imageLink: "",
-    refLink: "",
-  });
+  const [formData, setFormData] = useState<any>(initFormData);
+  const [progress, setProgress] = useState(0);
 
-  const submitForm = async () => {
+  const submitForm = async (imageURL: string) => {
     try {
-      setFormData({
-        ...formData,
-        imageLink:
-          "https://res.cloudinary.com/dotwawzhk/image/upload/v1712395190/qd0cy91t0894l1dv6etd.png",
-      });
-      const response = await axios.post(
+      const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/`,
-        formData
+        { ...formData, imageLink: imageURL }
       );
-      const { data } = response;
-      console.log(data);
-      setFormData({
-        ...formData,
-        category: "",
-        heading: "",
-        content: "",
-        imageLink: "",
-        refLink: "",
-      });
+      setFormData(initFormData);
 
+      if (data.hasOwnProperty("id")) {
+        toast.success("Post created successfully", ToastConfig);
+      }
+
+      setIsLoading(false);
+      setProgress(0);
       dispatch(closePostForm());
     } catch {
       console.log("some error occured in submit part");
@@ -58,8 +55,7 @@ const AddPostPopup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-
+    setIsLoading(true);
     if (!image) return;
 
     const imageformData = new FormData();
@@ -86,34 +82,21 @@ const AddPostPopup = () => {
         let percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         );
-        console.log(percentCompleted);
+        setProgress(percentCompleted);
       },
     };
 
     try {
-      const { data } = await axios.post(
-        `${cloudinary_url}`,
-        imageformData,
-        config
-      );
-      console.log(data);
-
-      const { public_url, secure_url } = data;
-      console.log(public_url, secure_url);
-      setFormData({ ...formData, imageLink: secure_url });
-      return secure_url;
+      axios
+        .post(`${cloudinary_url}`, imageformData, config)
+        .then(({ data }) => {
+          console.log(data);
+          setFormData({ ...formData, imageLink: data.secure_url });
+          submitForm(data.secure_url);
+        });
     } catch (err) {
       console.log(err);
     }
-    // let imageURL = await CloudImage(imageformData);
-    // setFormData({
-    //   ...formData,
-    //   imageLink:
-    //     "https://res.cloudinary.com/dotwawzhk/image/upload/v1712395190/qd0cy91t0894l1dv6etd.png",
-    // });
-
-    await submitForm();
-    dispatch(closePostForm());
   };
 
   const inputFields = [
@@ -170,12 +153,6 @@ const AddPostPopup = () => {
           </svg>
           <span className="sr-only">Close modal</span>
         </button>
-        {/* Popup Header - Label, color, pin */}
-        {/* <div className="border-b rounded-t py-3 dark:border-gray-600 flex justify-between items-center">
-          <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
-            {directive[currentForm]}
-          </h3>
-        </div> */}
         {/* Form... */}
         <form
           onSubmit={handleSubmit}
@@ -256,7 +233,7 @@ const AddPostPopup = () => {
                   true,
               })}
             >
-              {!isLoading ? "submit" : <></>}
+              {!isLoading ? "submit" : `${progress}% uploaded...`}
             </button>
           </div>
         </form>
