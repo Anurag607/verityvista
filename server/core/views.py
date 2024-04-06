@@ -30,8 +30,9 @@ class Registration(APIView):
             country = data["country"]
             state = data["state"]
             district = data["district"]
+            existing_user = user.objects.get(display_name=display_name)
             new_location = location(
-                username=display_name, country=country, state=state, district=district
+                username=existing_user, country=country, state=state, district=district
             )
             new_location.save()
         return Response({"status": 200})
