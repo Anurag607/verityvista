@@ -5,6 +5,7 @@ import { Rubik } from "next/font/google";
 import { ReduxProviders } from "@/redux/provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import {
   ErrorBoundaryWrapper,
   Navbar,
@@ -85,6 +86,8 @@ export default function RootLayout({ children }: { children: any }) {
         />
         <title>{"VerityVista"}</title>
       </head>
+
+      <UserProvider>
       <body
         className={classNames({
           [rubik.className]: true,
@@ -139,6 +142,7 @@ export default function RootLayout({ children }: { children: any }) {
           </ReduxProviders>
         </Suspense>
       </body>
+      </UserProvider>
     </html>
   );
 }
