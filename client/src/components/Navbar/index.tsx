@@ -86,22 +86,37 @@ const Navbar = () => {
         </div>
       </div>
       <div className={`flex gap-x-2 items-center justify-center`}>
-        {authInstance || user ? (
-          <Link
-            href="/api/auth/logout"
-            onClick={() => {
-              dispatch(destroyAuthInstance());
-            }}
-            className={classNames({
-              "text-primary font-normal bound text-[1.75rem]": true,
-              "flex justify-center items-center gap-2 cursor-pointer": true,
-              "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
-                true,
-              "px-2 py-1 rounded-md": true,
-            })}
-          >
-            <LogoutOutlined />
-          </Link>
+        {user ? (
+          // <button
+          //   onClick={() => {
+          //     dispatch(destroyAuthInstance());
+          //   }}
+          //   className={classNames({
+          //     "text-primary font-normal bound text-[1.75rem]": true,
+          //     "flex justify-center items-center gap-2 cursor-pointer": true,
+          //     "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
+          //       true,
+          //     "px-2 py-1 rounded-md": true,
+          //   })}
+          // >
+            <>
+            <a href="/api/auth/logout">
+              <LogoutOutlined />
+            </a>
+             <button
+             className={classNames({
+               "text-primary font-normal bound text-sm": true,
+               "mobile-sm:hidden flex justify-center items-center gap-2 cursor-pointer":
+                 true,
+               "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-700":
+                 true,
+               "px-2 py-1 mt-2 rounded-md": true,
+             })}
+           >
+             {"create"}
+           </button> 
+           </> 
+          // </button>
         ) : (
           <Link
             href="/api/auth/login"

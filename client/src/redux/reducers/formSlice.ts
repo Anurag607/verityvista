@@ -4,7 +4,7 @@ const formSlice = createSlice({
     name: 'form',
     initialState: {
         isFormOpen: false,
-        isUpdateFormOpen: false,
+        isPostFormOpen: false,
     },
     reducers: {
         openForm: (state) => {
@@ -13,14 +13,14 @@ const formSlice = createSlice({
         closeForm: (state) => {
             state.isFormOpen = false;
         },
-        openUpdateForm: (state) => {
-            state.isUpdateFormOpen = true;
+        openPostForm: (state) => {
+            state.isPostFormOpen = true;
         },
-        closeUpdateForm: (state) => {
-            state.isUpdateFormOpen = false;
+        closePostForm: (state) => {
+            state.isPostFormOpen = false;
         },
     },
 });
 
-export const { openForm, closeForm, openUpdateForm, closeUpdateForm } = formSlice.actions;
+export const { openForm, closeForm, openPostForm, closePostForm } = formSlice.actions;
 export default formSlice.reducer;
