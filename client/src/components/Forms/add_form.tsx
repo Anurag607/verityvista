@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { closeForm } from "@/redux/reducers/formSlice";
 import classNames from "classnames";
@@ -48,7 +48,11 @@ const AddFormPopup = () => {
     country: "",
     district: "",
     state: "",
+    verification_img:""
   });
+
+  const [image, setImage] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (user) {
@@ -58,6 +62,11 @@ const AddFormPopup = () => {
 
   const handleCloseForm = () => {
     dispatch(closeForm());
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file: any = e.target.files && e.target.files[0];
+    if (file) setImage(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,6 +85,47 @@ const AddFormPopup = () => {
     ) {
       setCurrentForm(2);
       return;
+    }
+
+    if (!image) return;
+
+    const imageformData = new FormData();
+    imageformData.append("upload_preset", "nextBit");
+
+    imageformData.append(
+      "cloud_name",
+      `${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME}`
+    );
+    imageformData.append(
+      "api_key",
+      `${process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}`
+    );
+    imageformData.append(
+      "api_secret",
+      `${process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET}`
+    );
+    imageformData.append("file", image);
+
+    const cloudinary_url = process.env.NEXT_PUBLIC_CLOUDINARY_URL;
+
+    const config = {
+      onUploadProgress: function (progressEvent: any) {
+        let percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        setProgress(percentCompleted);
+      },
+    };
+
+    try {
+      await axios
+        .post(`${cloudinary_url}`, imageformData, config)
+        .then(({ data }) => {
+          console.log(data);
+          setFormData({ ...formData, verification_img: data.secure_url });
+        });
+    } catch (err) {
+      console.log(err);
     }
 
     await axios
@@ -225,6 +275,11 @@ const AddFormPopup = () => {
                       );
                     })}
                   </select>
+                  <input
+              className="mt-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              type="file"
+              onChange={handleFileChange}
+            />
                 </div>
               )}
               {currentForm === 2 && (

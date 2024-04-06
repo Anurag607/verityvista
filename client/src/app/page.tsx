@@ -8,7 +8,7 @@ import dummyData from "@/lib/dummyData.json";
 import Link from "next/link";
 import { updateData } from "@/redux/reducers/searchSlice";
 import { ContentPopup } from "@/components";
-import { TiArrowUpOutline, TiArrowUpThick } from "react-icons/ti";
+import { TiArrowDownOutline, TiArrowDownThick, TiArrowUpOutline, TiArrowUpThick } from "react-icons/ti";
 import classNames from "classnames";
 import { setVote } from "@/redux/reducers/voteSlice";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -22,6 +22,7 @@ export default function Home() {
   );
   const [currentArticle, setCurrentArticle] = useState<any>(null);
   const votes = useAppSelector((state: any) => state.vote.votes);
+  const role = useAppSelector((state: any) => state.auth.role);
 
   useEffect(() => {
     setIsLoading(true);
@@ -120,9 +121,9 @@ export default function Home() {
                       {votes !== undefined &&
                       votes.hasOwnProperty(matchingData[0].id) &&
                       votes[matchingData[0].id] === 0 ? (
-                        <TiArrowUpThick size={24} />
+                        <TiArrowDownThick size={24} />
                       ) : (
-                        <TiArrowUpOutline size={24} />
+                        <TiArrowDownOutline size={24} />
                       )}
                     </div>
                   </div>
@@ -320,9 +321,9 @@ const CategoryCard = ({ data, setCurrentArticle, isLoading }: any) => {
                   {votes !== undefined &&
                   votes.hasOwnProperty(data.id) &&
                   votes[data.id] === 0 ? (
-                    <TiArrowUpThick size={24} />
+                    <TiArrowDownThick size={24} />
                   ) : (
-                    <TiArrowUpOutline size={24} />
+                    <TiArrowDownOutline size={24} />
                   )}
                 </div>
               </div>
