@@ -5,10 +5,12 @@ import ModCard from "@/components/ModCard";
 import { ToastConfig } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
 import axios from "axios";
+import { useRouter } from "next-nprogress-bar";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const ModeratorPage = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const role = useAppSelector((state: any) => state.auth.role);
   const [modData, setmodData] = useState([]);
@@ -16,6 +18,7 @@ const ModeratorPage = () => {
   useEffect(() => {
     if (role.role !== "admin") {
       toast.error("Only Admins Allowed!", ToastConfig);
+      router.push("/");
     }
   }, []);
 
