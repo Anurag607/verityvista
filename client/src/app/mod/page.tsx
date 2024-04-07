@@ -2,13 +2,22 @@
 
 import Loader from "@/components/Loader";
 import ModCard from "@/components/ModCard";
+import { ToastConfig } from "@/lib/utils";
+import { useAppSelector } from "@/redux/hooks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const ModeratorPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const role = useAppSelector((state: any) => state.auth.role);
   const [modData, setmodData] = useState([]);
+
+  useEffect(() => {
+    if (role.role !== "admin") {
+      toast.error("Only Admins Allowed!", ToastConfig);
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchGuidebooks() {
@@ -17,12 +26,9 @@ const ModeratorPage = () => {
         `${process.env.NEXT_PUBLIC_RENDER_SERVER}/getexreq`
       );
       if (data) {
-        console.log(data);
         setmodData(data.payload);
         setIsLoading(false);
-        console.log(modData);
       } else {
-        console.log("error");
         setIsLoading(false);
       }
     }

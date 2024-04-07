@@ -61,7 +61,8 @@ export const getPostByCategory = async (category: string) => {
 
 export const upvotePost = async (id: string, dname: string) => {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/upvote/`, {dname,}
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/upvote/`,
+    { dname }
   );
 
   return data;
@@ -69,7 +70,8 @@ export const upvotePost = async (id: string, dname: string) => {
 
 export const downvotePost = async (id: string, dname: string) => {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/downvote/`, {dname,}
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factmodels/${id}/downvote/`,
+    { dname }
   );
 
   return data;
@@ -78,8 +80,16 @@ export const downvotePost = async (id: string, dname: string) => {
 // response = {message: "", response: ""}
 export const addResponse = async (id: string, body: any) => {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factres/${id}/response/`,
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factres/${id}/add_response`,
     body
+  );
+
+  return data;
+};
+
+export const getResforArticleById = async (id: string) => {
+  const data = await axios.get(
+    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factres/${id}/`
   );
 
   return data;

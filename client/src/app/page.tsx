@@ -61,8 +61,9 @@ export default function Home() {
             >
               <div className={"h-2/3 rounded-t-2xl relative cursor-pointer"}>
                 <div
+                  onClick={() => setCurrentArticle(matchingData[0])}
                   className={
-                    "w-full h-full z-[100] bg-gradient-to-t from-neutral-300 opacity-75 to-transparent absolute bottom-0"
+                    "w-full h-full z-[100] bg-gradient-to-t from-neutral-300 opacity-75 to-transparent absolute bottom-0 cursor-pointer"
                   }
                 />
                 <img
@@ -73,6 +74,7 @@ export default function Home() {
                       : `/placeholder.svg`
                   }
                   alt={matchingData[0].heading}
+                  onClick={() => setCurrentArticle(matchingData[0])}
                   className="relative w-full h-full object-cover select-none grayscale rounded-t-2xl fadeout-overlay"
                 />
               </div>

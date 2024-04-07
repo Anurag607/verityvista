@@ -12,8 +12,8 @@ const searchSlice = createSlice({
       state.searchParams = action.payload;
       state.matchingData = state.fixedData.filter(
         (item: any) =>
-          item.title.toLowerCase().includes(action.payload.toLowerCase()) ||
-          item.description.toLowerCase().includes(action.payload.toLowerCase())
+          item.heading.toLowerCase().includes(action.payload.toLowerCase()) ||
+          item.content.toLowerCase().includes(action.payload.toLowerCase())
       );
     },
     clearSearchParams: (state) => {

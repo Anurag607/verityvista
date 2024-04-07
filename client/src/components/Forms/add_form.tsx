@@ -28,8 +28,8 @@ const Profession = [
 ];
 
 const RoleOptions = [
-  { value: "Expert", label: "Expert" },
   { value: "User", label: "User" },
+  { value: "Expert", label: "Expert" },
 ];
 
 const options = [RoleOptions, Profession];
@@ -44,7 +44,7 @@ const AddFormPopup = () => {
   const [formData, setFormData] = useState<any>({
     email: "",
     dname: "",
-    role: "Expert",
+    role: "User",
     profession: "",
     country: "",
     district: "",
@@ -88,7 +88,7 @@ const AddFormPopup = () => {
       return;
     }
 
-    if (!image) return;
+    if (!image && formData.role === "Expert") return;
 
     setIsLoading(true);
     const imageformData = new FormData();
@@ -106,7 +106,7 @@ const AddFormPopup = () => {
       "api_secret",
       `${process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET}`
     );
-    imageformData.append("file", image);
+    imageformData.append("file", image!);
 
     const cloudinary_url = process.env.NEXT_PUBLIC_CLOUDINARY_URL;
 
@@ -123,7 +123,6 @@ const AddFormPopup = () => {
       await axios
         .post(`${cloudinary_url}`, imageformData, config)
         .then(({ data }) => {
-          console.log(data);
           setFormData({ ...formData, verification_img: data.secure_url });
         });
     } catch (err) {
@@ -132,17 +131,11 @@ const AddFormPopup = () => {
 
     await axios
       .post(`${process.env.NEXT_PUBLIC_RENDER_SERVER}/register`, formData)
-      .then((res) => {
+      .then((res: any) => {
+        console.log(res);
         if (res.status === 200) {
           handleCloseForm();
-          dispatch(
-            setRole({
-              email: user?.email,
-              display_name: formData.dname,
-              role: formData.role,
-              profession: formData.profession,
-            })
-          );
+          dispatch(setRole(res.data.payload));
           setIsLoading(false);
           toast.success("Registration Successful", ToastConfig);
         }
