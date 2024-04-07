@@ -72,7 +72,6 @@ def upvote(request, pk):
 def downvote(request, pk):
     data = request.data
     display_name = data['dname']
-    postId = data['id']
     userobj = user.objects.get(display_name=display_name)
     try:
         fact_req = FactReqModel.objects.get(pk=pk)
