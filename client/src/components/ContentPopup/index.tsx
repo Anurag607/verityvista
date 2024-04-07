@@ -9,11 +9,15 @@ const ContentPopup = ({ data, close }: any) => {
   const role = useAppSelector((state: any) => state.auth.role);
 
   useEffect(() => {
-    getResforArticleById(data.id).then((res) => {
-      if (res.status === 200) {
-        setVerdict(res.data);
-      }
-    });
+    try {
+      getResforArticleById(data.id).then((res) => {
+        if (res.status === 200) {
+          setVerdict(res.data);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   return (
