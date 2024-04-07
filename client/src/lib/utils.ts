@@ -88,9 +88,14 @@ export const addResponse = async (id: string, body: any) => {
 };
 
 export const getResforArticleById = async (id: string) => {
-  const data = await axios.get(
-    `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factres/${id}/`
-  );
+  let data = { status: 404, data: {} };
+  try {
+    data = await axios.get(
+      `${process.env.NEXT_PUBLIC_RENDER_SERVER}/fact/factres/${id}/`
+    );
+  } catch (error) {
+    console.log(error);
+  }
 
   return data;
 };
